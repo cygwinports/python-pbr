@@ -1,0 +1,17 @@
+inherit python-wheel
+
+NAME="python-pbr"
+VERSION=1.10.0
+RELEASE=1
+CATEGORY="Python"
+SUMMARY="Python Build Reasonableness"
+DESCRIPTION="PBR is a library that injects some useful and sensible default
+behaviors into your setuptools run."
+
+PATCH_URI="http://pkgs.fedoraproject.org/cgit/rpms/python-pbr.git/plain/0001-Don-t-raise-exception-on-missing-man-pages.patch?h=f26"
+
+ARCH=noarch
+
+python3_pbr_CONTENTS+=" usr/bin/pbr"
+
+REQUIRES_EXCLUDE_FROM="${PYTHON3_SITELIB}/pbr/tests/testpackage/setup.py"
