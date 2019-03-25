@@ -1,17 +1,23 @@
 inherit python-wheel
 
 NAME="python-pbr"
-VERSION=1.10.0
+VERSION=5.1.3
 RELEASE=1
 CATEGORY="Python"
 SUMMARY="Python Build Reasonableness"
 DESCRIPTION="PBR is a library that injects some useful and sensible default
 behaviors into your setuptools run."
 
-PATCH_URI="http://pkgs.fedoraproject.org/cgit/rpms/python-pbr.git/plain/0001-Don-t-raise-exception-on-missing-man-pages.patch?h=f26"
-
 ARCH=noarch
 
-python3_pbr_CONTENTS+=" usr/bin/pbr"
+python37_pbr_CONTENTS+=" usr/bin/pbr"
+DIFF_EXCLUDES="AUTHORS ChangeLog"
+REQUIRES_EXCLUDE_FROM="*/sphinxext.py"
 
-REQUIRES_EXCLUDE_FROM="${PYTHON3_SITELIB}/pbr/tests/testpackage/setup.py"
+src_install() {
+	cd ${B}
+	python_wheel_install
+
+	find ${D}/usr/lib/python*/site-packages/pbr/tests/ -delete
+	sed -i -e '\|/tests/|d' ${D}/usr/lib/python*/site-packages/pbr-${VERSION}.dist-info/RECORD
+}
